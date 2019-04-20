@@ -1,18 +1,34 @@
 import serial
 import threading
+import serial.tools.list_ports
 
 
 class ArduinoInput:
+    _port = None
+    _baudrate = None
     _serial = None
     _running = False
     _callback = None
 
     def __init__(self, callback, port='COM4', baudrate=9600):
-        self._serial = serial.Serial(port, baudrate)
+        self._port = port
+        self._baudrate = baudrate
         self._callback = callback
         threading.Thread(target=self._loop).start()
 
+    def choose_port(self):
+        ports = sorted(serial.tools.list_ports.comports())
+
+        print("Please choose a port\n")
+        for idx, port in enumerate(ports):
+            print("{}: {} [{}]".format(idx, port.device, port.description))
+        index = 0
+        input(index)
+
+        self._port = ports[index].device
+
     def start(self):
+        self._serial = serial.Serial(self._port, self._baudrate)
         self._running = True
 
     def stop(self):

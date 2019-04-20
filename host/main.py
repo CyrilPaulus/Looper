@@ -22,6 +22,7 @@ def main():
 
     #
     try:
+        arduino_input.choose_port()
         arduino_input.start()
         looper.print_record_info()
         input("Press any key to exit\n")
