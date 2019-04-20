@@ -20,12 +20,12 @@ def main():
     display = CursesDisplay(looper)
     arduino_input = ArduinoInput(lambda x: callback(x, looper, display))
 
+    arduino_input.choose_port()
+    arduino_input.start()
+    looper.print_record_info()
+
     #
     try:
-        arduino_input.choose_port()
-        arduino_input.start()
-        looper.print_record_info()
-        input("Press any key to exit\n")
         display.run()
     except KeyboardInterrupt:
         pass

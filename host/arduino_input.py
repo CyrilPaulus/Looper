@@ -14,7 +14,6 @@ class ArduinoInput:
         self._port = port
         self._baudrate = baudrate
         self._callback = callback
-        threading.Thread(target=self._loop).start()
 
     def choose_port(self):
         ports = sorted(serial.tools.list_ports.comports())
@@ -30,6 +29,7 @@ class ArduinoInput:
     def start(self):
         self._serial = serial.Serial(self._port, self._baudrate)
         self._running = True
+        threading.Thread(target=self._loop).start()
 
     def stop(self):
         self._running = False
